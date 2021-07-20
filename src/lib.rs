@@ -13,7 +13,7 @@ pub use mio_serial::{
     SerialPortBuilder, SerialPortInfo, StopBits,
 };
 
-use tokio::io::{AsyncRead, AsyncWrite, ReadBuf};
+use tokio::io::{AsyncRead, AsyncWrite, ReadBuf, Interest, Ready};
 
 use std::io::{Read, Result as IoResult, Write};
 use std::pin::Pin;
@@ -188,9 +188,9 @@ impl SerialStream {
     /// The function may complete without the socket being readable. This is a
     /// false-positive and attempting a `try_read()` will return with
     /// `io::ErrorKind::WouldBlock`.
+    #[inline(always)]
     pub async fn readable(&self) -> IoResult<()> {
-        let _ = self.inner.readable().await?;
-        Ok(())
+        self.inner.readable().await
     }
 
     /// Try to write bytes on the serial port.  On success returns the number of bytes written.
@@ -215,9 +215,19 @@ impl SerialStream {
     /// The function may complete without the socket being readable. This is a
     /// false-positive and attempting a `try_write()` will return with
     /// `io::ErrorKind::WouldBlock`.
+    #[inline(always)]
     pub async fn writable(&self) -> IoResult<()> {
-        let _ = self.inner.writable().await?;
-        Ok(())
+        self.inner.writable().await
+    }
+
+    /// Wait for any of the requested ready states.
+    ///
+    /// This function is usually paired with `try_read()` or `try_write()`. It
+    /// can be used to concurrently read / write to the same pipe on a single
+    /// task without splitting the pipe.
+    #[inline(always)]
+    pub async fn ready(&self, interest: Interest) -> IoResult<Ready> {
+        self.inner.ready(interest).await
     }
 }
 

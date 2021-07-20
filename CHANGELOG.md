@@ -7,6 +7,9 @@ and this project adheres to http://semver.org/[Semantic Versioning].
 
 ## [5.4.0-beta2] UNRELEASED
 
+### Added
+- Added `SerialStream::ready`
+
 ### Changed
 - Renamed `SerialPortBuilderExt::open_async` to `SerialPortBuilderExt::open_native_async` to reflect the original
   intention
