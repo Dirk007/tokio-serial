@@ -45,11 +45,8 @@ optional = true
 
 [dev-dependencies.tokio]
 version = "1.8.1"
-features = ["macros", "io-util"]
+features = ["macros"]
 default-features = false
-
-[dev-dependencies.tokio-test]
-version = "0.4"
 
 
 [[example]]
