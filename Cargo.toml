@@ -12,10 +12,6 @@ keywords = ["rs232", "serial", "tokio"]
 categories = ["asynchronous", "hardware-support"]
 edition = "2018"
 
-[badges]
-appveyor = { repository = "berkowski/tokio-serial", service = "github" }
-travis-ci = { repository = "berkowski/tokio-serial", service = "github" }
-
 [features]
 default = []
 rt = ["tokio/rt-multi-thread"]
